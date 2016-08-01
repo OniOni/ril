@@ -1,6 +1,10 @@
+from contextlib import contextmanager
 import kyotocabinet as kc
 
-from .base import BaseAsyncDB
+from .base import (
+    async_wrap,
+    BaseAsyncDB
+)
 
 class AsyncKyoto(BaseAsyncDB):
 
@@ -9,47 +13,33 @@ class AsyncKyoto(BaseAsyncDB):
         self.db = kc.DB()
         super().__init__()
 
-    async def open(self):
-        res = await self._async_run(
-            self.db.open,
+    @contextmanager
+    def open(self):
+        conn = self.db.open(
             self.name,
             kc.DB.OWRITER | kc.DB.OCREATE
         )
+        yield conn
 
-        return res
-
-    async def close(self):
-        res = await self._async_run(
-            self.db.close
-        )
-
-        return res
+        self.db.close()
 
     async def set(self, key, val):
-        res = await self._async_run(
-            self.db.set, key, val
-        )
+        with self.open():
+            return self.db.set(key, val)
 
-        return res
+    @async_wrap
+    def get(self, key):
+        with self.open():
+            return self.db.get(key)
 
-    async def get(self, key):
-        res = await self._async_run(
-            self.db.get, key
-        )
+    @async_wrap
+    def get_all(self):
+        with self.open():
+            cur = self.db.cursor()
+            cur.jump()
+            res = [
+                self.db.get(k) for k in cur
+            ]
+            cur.disable()
 
-        return res
-
-    def _get_all(self):
-        cur = self.db.cursor()
-        cur.jump()
-        res = [self.db.get(k) for k in cur]
-        cur.disable()
-
-        return res
-
-    async def get_all(self):
-        res = await self._async_run(
-            self._get_all
-        )
-
-        return res
+            return res

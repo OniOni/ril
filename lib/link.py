@@ -6,12 +6,11 @@ from lib.db import AsyncKyoto
 
 
 class Link(object):
+    db = AsyncKyoto('test.kch')
 
     def __init__(self, url: str, tags: List[str]):
         self.url = url
         self.tags = tags
-
-        self.db = AsyncKyoto('test.kch')
 
     @classmethod
     def from_request(cls, req):
@@ -22,17 +21,12 @@ class Link(object):
         )
 
     async def persist(self):
-        await self.db.open()
         await self.db.set(self.url, json.dumps(self.public()))
-        await self.db.close()
 
     @classmethod
-    async def all(self):
-        db = AsyncKyoto('test.kch')
-        await db.open()
-        _all = await db.get_all()
-        await db.close()
-        print(_all)
+    async def all(cls):
+        _all = await cls.db.get_all()
+
         return [json.loads(a.decode('utf-8')) for a in _all]
 
     def public(self) -> str:
@@ -42,4 +36,4 @@ class Link(object):
                 html.escape(t)
                 for t in self.tags
             ]
-    }
+        }
