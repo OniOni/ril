@@ -1,5 +1,6 @@
 import html
 import json
+from urllib.parse import urlparse
 from typing import List
 
 from lib.db import AsyncKyoto
@@ -9,7 +10,8 @@ class Link(object):
     db = AsyncKyoto('test.kch')
 
     def __init__(self, url: str, tags: List[str]):
-        self.url = url
+        self.raw_url = url
+        self.url = urlparse(url)
         self.tags = tags
 
     @classmethod
@@ -21,7 +23,7 @@ class Link(object):
         )
 
     async def persist(self):
-        await self.db.set(self.url, json.dumps(self.public()))
+        await self.db.set(self.key, json.dumps(self.public()))
 
     @classmethod
     async def all(cls):
@@ -31,9 +33,13 @@ class Link(object):
 
     def public(self) -> str:
         return {
-            'url': self.url,
+            'url': self.raw_url,
             'tags': [
                 html.escape(t)
                 for t in self.tags
             ]
         }
+
+    @property
+    def key(self):
+        return "{}{}".format(self.url.netloc, self.url.path)
