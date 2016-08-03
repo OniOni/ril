@@ -1,7 +1,5 @@
 import json
 
-from aiohttp import web
-
 from routes import *
 
 def setup():
