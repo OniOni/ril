@@ -3,11 +3,13 @@ import json
 from urllib.parse import urlparse
 from typing import List
 
-from lib.db import AsyncKyoto
+from lib.db import (
+    AsyncKyoto,
+    AsyncSQLite
+)
 
 
 class Link(object):
-    db = AsyncKyoto('test.kch')
 
     def __init__(self, url: str, tags: List[str]):
         self.raw_url = url
@@ -29,7 +31,7 @@ class Link(object):
     async def all(cls):
         _all = await cls.db.get_all()
 
-        return [json.loads(a.decode('utf-8')) for a in _all]
+        return [json.loads(a) for a in _all]
 
     def public(self) -> str:
         return {
@@ -43,3 +45,10 @@ class Link(object):
     @property
     def key(self):
         return "{}{}".format(self.url.netloc, self.url.path)
+
+
+class KyotoLink(Link):
+    db = AsyncKyoto('test.kch')
+
+class SQLLink(Link):
+    db = AsyncSQLite('test.db')

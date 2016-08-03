@@ -1,6 +1,6 @@
 from aiohttp import web
 
-from lib.link import Link
+from lib.link import SQLLink as Link
 
 
 async def test(request):

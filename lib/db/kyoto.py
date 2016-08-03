@@ -6,6 +6,7 @@ from .base import (
     BaseAsyncDB
 )
 
+
 class AsyncKyoto(BaseAsyncDB):
 
     def __init__(self, name):
@@ -23,7 +24,8 @@ class AsyncKyoto(BaseAsyncDB):
 
         self.db.close()
 
-    async def set(self, key, val):
+    @async_wrap
+    def set(self, key, val):
         with self.open():
             return self.db.set(key, val)
 
@@ -38,7 +40,7 @@ class AsyncKyoto(BaseAsyncDB):
             cur = self.db.cursor()
             cur.jump()
             res = [
-                self.db.get(k) for k in cur
+                self.db.get(k).decode('utf-8') for k in cur
             ]
             cur.disable()
 
