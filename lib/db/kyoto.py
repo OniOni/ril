@@ -40,7 +40,8 @@ class AsyncKyoto(BaseAsyncDB):
             cur = self.db.cursor()
             cur.jump()
             res = [
-                self.db.get(k).decode('utf-8') for k in cur
+                self.db.get(k).decode('utf-8')
+                for k in cur
             ]
             cur.disable()
 
