@@ -12,10 +12,10 @@ async def save(request):
     await request.post()
     doc = Link.from_request(request)
 
-    await doc.persist()
+    status = await doc.persist()
 
     return web.json_response({
-        'status': 'ok',
+        'status': 'ok' if status else 'error',
         'document': doc.public()
     })
 

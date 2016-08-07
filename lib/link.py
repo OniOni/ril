@@ -25,7 +25,8 @@ class Link(object):
         )
 
     async def persist(self):
-        await self.db.set(self.key, json.dumps(self.public()))
+        status = await self.db.set(self.key, json.dumps(self.public()))
+        return status
 
     @classmethod
     async def all(cls):

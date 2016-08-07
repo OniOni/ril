@@ -22,11 +22,12 @@ class AsyncSQLite(BaseAsyncDB):
 
     def _create_table(self, conn):
         conn.execute(
-            '''create table links
-            (link text, json text);
-            '''
+            '''create table if not exists
+            links (
+            link text primary key,
+            json text
+            );'''
         )
-        conn.commit()
 
     def _insert(self, conn, url, json):
         conn.execute(
@@ -39,8 +40,13 @@ class AsyncSQLite(BaseAsyncDB):
     @async_wrap
     def set(self, key, val):
         with self.open() as conn:
-            # self._create_table(conn)
-            self._insert(conn, key, val)
+            self._create_table(conn)
+            try:
+                self._insert(conn, key, val)
+            except sqlite3.IntegrityError:
+                return False
+
+            return True
 
     @async_wrap
     def get_all(self):
