@@ -3,16 +3,32 @@
   <head>
     <meta charset="utf-8">
     <title>Read it later</title>
+    <link href="app.css" rel="stylesheet" type="text/css"></link>
     <script src='app.js' defer></script>
   </head>
   <body>
     <h1>Read it later</h1>
     <div id="content"></div>
+
+    <h1>Add link</h1>
+    <form action="http://localhost:8000/save" method="POST">
+      <fieldset>
+        <div class="container margin-1">
+          <label class="left" for="url">URL:</label>
+          <input class="right" type="text" name="url"></input>
+        </div>
+        <div class="container margin-1">
+          <label class="left" for="tag">tag:</label>
+          <input class="right" type="text" name="tags"></input><br>
+        </div>
+        <input class="right margin-1" type="submit" value="Add">
+      </fieldset>
+    </form>
   </body>
 
   <template id="urlrow">
     <div>
-      <a class="url" src="#"></a>
+      <a class="url"></a>
     </div>
   </template>
 
