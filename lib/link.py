@@ -4,7 +4,6 @@ from urllib.parse import urlparse
 from typing import List
 
 from lib.db import (
-    AsyncKyoto,
     AsyncSQLite
 )
 
@@ -47,9 +46,6 @@ class Link(object):
     def key(self):
         return "{}{}".format(self.url.netloc, self.url.path)
 
-
-class KyotoLink(Link):
-    db = AsyncKyoto('test.kch')
 
 class SQLLink(Link):
     db = AsyncSQLite('test.db')
