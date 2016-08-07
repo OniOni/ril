@@ -13,7 +13,7 @@ class Link(object):
     def __init__(self, url: str, tags: List[str]):
         self.raw_url = url
         self.url = urlparse(url)
-        self.tags = tags
+        self.tags = [t.strip() for t in  tags]
 
     @classmethod
     def from_request(cls, req):
