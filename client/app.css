@@ -18,3 +18,7 @@
 .margin-1 {
     margin: 0.2em;
 }
+
+.center {
+    margin: auto;
+}

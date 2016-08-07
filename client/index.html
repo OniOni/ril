@@ -14,12 +14,12 @@
     <form action="http://localhost:8000/save" method="POST">
       <fieldset>
         <div class="container margin-1">
-          <label class="left" for="url">URL:</label>
-          <input class="right" type="text" name="url"></input>
+          <label for="url">URL:</label><br>
+          <input type="text" name="url"></input>
         </div>
         <div class="container margin-1">
-          <label class="left" for="tag">tag:</label>
-          <input class="right" type="text" name="tags"></input><br>
+          <label for="tag">tag:</label><br>
+          <input type="text" name="tags"></input><br>
         </div>
         <input class="right margin-1" type="submit" value="Add">
       </fieldset>
@@ -27,9 +27,16 @@
   </body>
 
   <template id="urlrow">
-    <div>
+    <div class="container">
+      <span>URL:</span>
       <a class="url"></a>
+      <span>Tags:</span>
+      <span class="tags"></span>
     </div>
+  </template>
+
+  <template id="tagrow">
+    <span class="tag"></span>,
   </template>
 
 </html>
