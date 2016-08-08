@@ -23,6 +23,14 @@ class Link(object):
             tags=p['tags'].split(',')
         )
 
+    @classmethod
+    def from_row(cls, row):
+        r = json.loads(row)
+        return cls(
+            url=r['url'],
+            tags=r['tags']
+        )
+
     async def persist(self):
         status = await self.db.set(self.key, json.dumps(self.public()))
         return status
@@ -31,7 +39,16 @@ class Link(object):
     async def all(cls):
         _all = await cls.db.get_all()
 
-        return [json.loads(a) for a in _all]
+        return [cls.from_row(a) for a in _all]
+
+    @classmethod
+    async def find_with_tags(cls, tag):
+        _all = await cls.all()
+
+        return [
+            a for a in _all
+            if tag in a.tags
+        ]
 
     def public(self) -> str:
         return {

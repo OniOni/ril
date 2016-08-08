@@ -24,5 +24,22 @@ async def get_all(request):
 
     return web.json_response({
         'status': 'ok',
-        'document': _all
+        'tags': list(set([
+            t for d in _all
+            for t in d.tags
+        ])),
+        'document': [
+            a.public() for a in _all
+        ]
+    })
+
+async def find_with_tag(request):
+    tag = request.match_info.get('tag')
+    matches = await Link.find_with_tags(tag)
+
+    return web.json_response({
+        'status': 'ok',
+        'document': [
+            m.public() for m in matches
+        ]
     })
