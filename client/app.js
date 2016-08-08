@@ -2,6 +2,7 @@ let createTag = function(tag) {
     let template = document.querySelector('#tagrow');
     let el = template.content.querySelector('.tag');
     el.innerHTML = tag;
+    el.setAttribute('onclick', `load('${tag}')`);
 
     return document.importNode(template.content, true);
 }
@@ -20,17 +21,32 @@ let createRow = function(url, tags) {
 
     return document.importNode(template.content, true);
 };
+let createTagCloud = function(tags) {
+        return;
+};
 
-let load = function() {
+let load = function(tags=null) {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:8000/all', true);
+    let endpoint = 'all'
+    xhr.open('GET', `http://localhost:8000/${endpoint}`, true);
 
     xhr.onload = function (e) {
         if (this.status == 200) {
+            let res = JSON.parse(this.response);
             let target = document.querySelector('#content');
-            for (doc of JSON.parse(this.response)['document']) {
-                let row = createRow(doc['url'], doc['tags'])
-                target.append(row);
+            let tagcloud = document.querySelector('#tagcloud');
+            target.innerHTML = '';
+            tagcloud.innerHTML = '';
+            for (doc of res['document']) {
+                if (!tags || doc['tags'].indexOf(tags) != -1) {
+                    let row = createRow(doc['url'], doc['tags'])
+                    target.append(row);
+                }
+            }
+
+            for (t of res['tags']) {
+                let tag = createTag(t)
+                tagcloud.append(tag);
             }
         }
     }

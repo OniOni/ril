@@ -8,6 +8,11 @@
   </head>
   <body>
     <h1>Read it later</h1>
+    <h2>Tag Cloud TM:</h2>
+    <button onclick="load()">all</button>
+    <span id="tagcloud"></span>
+
+    <h2>Saved for later</h2>
     <div id="content"></div>
 
     <h1>Add link</h1>
@@ -36,7 +41,7 @@
   </template>
 
   <template id="tagrow">
-    <span class="tag"></span>,
+    <button class="tag"></button>
   </template>
 
 </html>
