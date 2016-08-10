@@ -26,7 +26,8 @@ class AsyncSQLite(BaseAsyncDB):
             links (
             id integer primary key autoincrement,
             link text unique,
-            json text
+            json text,
+            archived boolean default 0
             );'''
         )
 
@@ -40,7 +41,8 @@ class AsyncSQLite(BaseAsyncDB):
 
     def _delete(self, conn, id):
         conn.execute(
-            '''delete from links
+            '''update links
+            set archived = 1
             where id = ?;
             ''', (id,)
         )
@@ -66,7 +68,7 @@ class AsyncSQLite(BaseAsyncDB):
     def get_all(self):
         with self.open() as conn:
             self._create_table(conn)
-            _all = conn.execute('select id, json from links;').fetchall()
+            _all = conn.execute('select id, json from links where archived = 0;').fetchall()
             conn.commit()
 
             return [{'id': a[0], 'json': a[1]} for a in _all]
