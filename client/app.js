@@ -53,4 +53,18 @@ let load = function(tags=null) {
     xhr.send();
 };
 
+let add = function() {
+    let formData = new FormData(document.querySelector("#addForm"));
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "http://localhost:8000/save", true);
+    xhr.send(formData);
+
+    xhr.onload = function (e) {
+        if (this.status == 200) {
+            load();
+            console.log('Great success.');
+        }
+    }
+}
+
 load();

@@ -21,7 +21,7 @@
 
     <div class="right width-20">
       <h2>Add link</h2>
-      <form action="http://localhost:8000/save" method="POST">
+      <form id="addForm">
         <fieldset>
           <div class="container margin-1">
             <label for="url">URL:</label><br>
@@ -31,7 +31,7 @@
             <label for="tag">Tags:</label><br>
             <input type="text" name="tags" class="magic-width"></input><br>
           </div>
-          <input class="right margin-1" type="submit" value="Add">
+          <input class="right margin-1" type="submit" value="Add" onclick="add()">
         </fieldset>
       </form>
     </div>
