@@ -6,11 +6,14 @@ let createTag = function(tag) {
 
     return document.importNode(template.content, true);
 }
-let createRow = function(url, tags) {
+let createRow = function(id, url, tags) {
     let template = document.querySelector('#urlrow');
     let a = template.content.querySelector('.url');
     a.innerHTML = url;
     a.setAttribute('href', url);
+
+    let a2 = template.content.querySelector('.delete');
+    a2.setAttribute('onclick', `del(${id})`);
 
     let tagEl = template.content.querySelector('.tags');
     tagEl.innerHTML = '';
@@ -35,7 +38,7 @@ let load = function(tags=null) {
             tagcloud.innerHTML = '';
             for (doc of res['document']) {
                 if (!tags || doc['tags'].indexOf(tags) != -1) {
-                    let row = createRow(doc['url'], doc['tags'])
+                    let row = createRow(doc['id'], doc['url'], doc['tags'])
                     target.append(row);
                 }
             }
@@ -53,7 +56,6 @@ let add = function() {
     let formData = new FormData(document.querySelector("#addForm"));
     let xhr = new XMLHttpRequest();
     xhr.open('POST', "http://localhost:8000/save", true);
-    xhr.send(formData);
 
     xhr.onload = function (e) {
         if (this.status == 200) {
@@ -61,6 +63,26 @@ let add = function() {
             console.log('Great success.');
         }
     }
-}
+    xhr.send(formData);
+};
+
+let del = function(id) {
+    let url = `http://localhost:8000/${id}`;
+    console.log(`Del ${id} -> ${url}`);
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('DELETE', url, true);
+
+    xhr.onload = function (e) {
+        console.log('done');
+        if (this.status == 200) {
+            load();
+            console.log('Great success.');
+        } else {
+            console.log(`Not so great ${this.status}`);
+        };
+    }
+    xhr.send();
+};
 
 load();

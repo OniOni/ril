@@ -25,6 +25,7 @@ def setup():
     app.router.add_route('POST', '/save', save)
     app.router.add_route('GET', '/all', get_all)
     app.router.add_route('GET', '/find/{tag}', find_with_tag)
+    app.router.add_route('DELETE', '/{id}', delete)
 
     app = cors_setup(app)
 

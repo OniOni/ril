@@ -52,6 +52,10 @@ class Link(object):
             if tag in a.tags
         ]
 
+    @classmethod
+    async def delete(cls, id):
+        await cls.db.delete(id)
+
     def public(self) -> str:
         return {
             'id': self.id,

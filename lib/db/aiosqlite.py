@@ -33,10 +33,23 @@ class AsyncSQLite(BaseAsyncDB):
     def _insert(self, conn, url, json):
         conn.execute(
             '''insert into links
-            values (?, ?);
+            (link, json) values (?, ?);
             ''', (url, json)
         )
         conn.commit()
+
+    def _delete(self, conn, id):
+        conn.execute(
+            '''delete from links
+            where id = ?;
+            ''', (id,)
+        )
+        conn.commit()
+
+    @async_wrap
+    def delete(self, id):
+        with self.open() as conn:
+            self._delete(conn, id)
 
     @async_wrap
     def set(self, key, val):

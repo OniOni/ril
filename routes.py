@@ -43,3 +43,11 @@ async def find_with_tag(request):
             m.public() for m in matches
         ]
     })
+
+async def delete(request):
+    id = request.match_info.get('id')
+    await Link.delete(id)
+
+    return web.json_response({
+        'status': 'ok'
+    })
