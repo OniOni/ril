@@ -10,10 +10,11 @@ from lib.db import (
 
 class Link(object):
 
-    def __init__(self, url: str, tags: List[str]):
+    def __init__(self, url: str, tags: List[str], id=None):
         self.raw_url = url
         self.url = urlparse(url)
         self.tags = [t.strip() for t in  tags]
+        self.id = id
 
     @classmethod
     def from_request(cls, req):
@@ -25,8 +26,9 @@ class Link(object):
 
     @classmethod
     def from_row(cls, row):
-        r = json.loads(row)
+        r = json.loads(row['json'])
         return cls(
+            id=row['id'],
             url=r['url'],
             tags=r['tags']
         )
@@ -52,6 +54,7 @@ class Link(object):
 
     def public(self) -> str:
         return {
+            'id': self.id,
             'url': self.raw_url,
             'tags': [
                 html.escape(t)

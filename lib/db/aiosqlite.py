@@ -24,7 +24,8 @@ class AsyncSQLite(BaseAsyncDB):
         conn.execute(
             '''create table if not exists
             links (
-            link text primary key,
+            id integer primary key autoincrement,
+            link text unique,
             json text
             );'''
         )
@@ -51,7 +52,8 @@ class AsyncSQLite(BaseAsyncDB):
     @async_wrap
     def get_all(self):
         with self.open() as conn:
-            _all = conn.execute('select json from links;').fetchall()
+            self._create_table(conn)
+            _all = conn.execute('select id, json from links;').fetchall()
             conn.commit()
 
-            return [a[0] for a in _all]
+            return [{'id': a[0], 'json': a[1]} for a in _all]
