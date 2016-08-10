@@ -7,34 +7,41 @@
     <script src='app.js' defer></script>
   </head>
   <body>
-    <h1>Read it later</h1>
-    <h2>Tag Cloud TM:</h2>
-    <button onclick="load()">all</button>
-    <span id="tagcloud"></span>
+    <div>
+      <h1>Read it later</h1>
+    </div>
+    <div class="left width-75">
+      <h2>Tag Cloud TM:</h2>
+      <button onclick="load()">all</button>
+      <span id="tagcloud"></span>
 
-    <h2>Saved for later</h2>
-    <div id="content"></div>
+      <h2>Saved for later</h2>
+      <div id="content"></div>
+    </div>
 
-    <h1>Add link</h1>
-    <form action="http://localhost:8000/save" method="POST">
-      <fieldset>
-        <div class="container margin-1">
-          <label for="url">URL:</label><br>
-          <input type="text" name="url"></input>
-        </div>
-        <div class="container margin-1">
-          <label for="tag">tag:</label><br>
-          <input type="text" name="tags"></input><br>
-        </div>
-        <input class="right margin-1" type="submit" value="Add">
-      </fieldset>
-    </form>
+    <div class="right width-20">
+      <h2>Add link</h2>
+      <form action="http://localhost:8000/save" method="POST">
+        <fieldset>
+          <div class="container margin-1">
+            <label for="url">URL:</label><br>
+            <input type="text" name="url" class="magic-width"></input>
+          </div>
+          <div class="container margin-1">
+            <label for="tag">Tags:</label><br>
+            <input type="text" name="tags" class="magic-width"></input><br>
+          </div>
+          <input class="right margin-1" type="submit" value="Add">
+        </fieldset>
+      </form>
+    </div>
   </body>
 
   <template id="urlrow">
-    <div class="container">
-      <span>URL:</span>
+    <div class="container margin-top-bottom-1em">
+      <span class="bold">URL:</span>
       <a class="url"></a>
+      <br>
       <span>Tags:</span>
       <span class="tags"></span>
     </div>
