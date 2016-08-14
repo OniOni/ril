@@ -1,0 +1,15 @@
+.magic-width {
+    width: calc(100% - 18px);
+}
+
+.container {
+    overflow: auto;
+}
+
+.margin-1 {
+    margin: 0.2em;
+}
+
+.right {
+    float: right;
+}

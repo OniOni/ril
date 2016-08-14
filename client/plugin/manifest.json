@@ -1,0 +1,23 @@
+{
+    "manifest_version": 2,
+    "name": "RIL",
+    "version": "0.1",
+
+    "description": "Save links for later",
+
+    "icons": {
+        "48": "icons/border-48.png"
+    },
+    "permissions": [
+        "http://localhost:8000/*",
+        "activeTab"
+    ],
+    "browser_action": {
+        "title": "ril",
+        "default_icon": {
+            "38": "button/geo-38.png"
+        },
+        "default_title": "RIL",
+        "default_popup": "popup/ril.html"
+    }
+}
