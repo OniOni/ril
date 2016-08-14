@@ -13,7 +13,10 @@ class Link(object):
     def __init__(self, url: str, tags: List[str], id=None):
         self.raw_url = url
         self.url = urlparse(url)
-        self.tags = [t.strip() for t in  tags]
+        self.tags = [
+            t for t in map(lambda x: x.strip(), tags)
+            if t
+        ]
         self.id = id
 
     @classmethod
