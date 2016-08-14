@@ -26,6 +26,10 @@ body {
     margin: 1em 0em;
 }
 
+.margin-top-1em {
+    margin: 1em 0em 0em 0em;
+}
+
 .center {
     margin: auto;
 }
@@ -44,4 +48,9 @@ body {
 
 .bold {
     font-weight: bolder;
+}
+
+.flex-row {
+    display: flex;
+    flex-flow: row;
 }
