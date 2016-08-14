@@ -33,7 +33,7 @@ class AsyncSQLite(BaseAsyncDB):
 
     def _insert(self, conn, url, json):
         conn.execute(
-            '''insert into links
+            '''insert or replace into links
             (link, json) values (?, ?);
             ''', (url, json)
         )
