@@ -19,7 +19,7 @@ let createRow = function(id, url, tags) {
     tagEl.innerHTML = '';
     for (t of tags) {
         let tag = createTag(t);
-        tagEl.append(tag);
+        tagEl.appendChild(tag);
     }
 
     return document.importNode(template.content, true);
@@ -39,13 +39,13 @@ let load = function(tags=null) {
             for (doc of res['document']) {
                 if (!tags || doc['tags'].indexOf(tags) != -1) {
                     let row = createRow(doc['id'], doc['url'], doc['tags'])
-                    target.append(row);
+                    target.appendChild(row);
                 }
             }
 
             for (t of res['tags']) {
                 let tag = createTag(t)
-                tagcloud.append(tag);
+                tagcloud.appendChild(tag);
             }
         }
     }
