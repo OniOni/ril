@@ -1,39 +1,23 @@
-import json
-
 import aiohttp_cors
 
-from routes import *
+from lib import frk
+import routes
 
-
-def cors_setup(app):
-    cors = aiohttp_cors.setup(app, defaults={
-    "*": aiohttp_cors.ResourceOptions(
+def setup():
+    app = frk.app
+    app.cors_setup({
+        "*": aiohttp_cors.ResourceOptions(
             allow_credentials=True,
             expose_headers="*",
             allow_headers="*",
         )
     })
 
-    for route in list(app.router.routes()):
-        cors.add(route)
-
-    return app
-
-def setup():
-    app = web.Application()
-    app.router.add_route('GET', '/test', test)
-    app.router.add_route('POST', '/save', save)
-    app.router.add_route('GET', '/all', get_all)
-    app.router.add_route('GET', '/find/{tag}', find_with_tag)
-    app.router.add_route('DELETE', '/{id}', delete)
-
-    app = cors_setup(app)
-
     return app
 
 
 def run(app):
-    web.run_app(app)
+    app.run()
 
 
 if __name__ == '__main__':
