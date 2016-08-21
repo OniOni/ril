@@ -1,3 +1,5 @@
+const BASEURL = "http://chateau208.mynetgear.com/ril-server";
+
 let createTag = function(tag) {
     let template = document.querySelector('#tagrow');
     let el = template.content.querySelector('.tag');
@@ -27,7 +29,7 @@ let createRow = function(id, url, tags) {
 
 let load = function(tags=null) {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "http://localhost:8000/all", true);
+    xhr.open('GET', `${BASEURL}/all`, true);
 
     xhr.onload = function (e) {
         if (this.status == 200) {
@@ -55,7 +57,7 @@ let load = function(tags=null) {
 let add = function() {
     let formData = new FormData(document.querySelector("#addForm"));
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "http://localhost:8000/save", true);
+    xhr.open('POST', `${BASEURL}/save`, true);
 
     xhr.onload = function (e) {
         if (this.status == 200) {
@@ -67,11 +69,11 @@ let add = function() {
 };
 
 let del = function(id) {
-    let url = `http://localhost:8000/${id}`;
-    console.log(`Del ${id} -> ${url}`);
+    let path = `${BASEURL}/${id}`;
+    console.log(`Del ${id} -> ${path}`);
 
     let xhr = new XMLHttpRequest();
-    xhr.open('DELETE', url, true);
+    xhr.open('DELETE', path, true);
 
     xhr.onload = function (e) {
         console.log('done');
