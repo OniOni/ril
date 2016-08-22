@@ -28,12 +28,10 @@ let createRow = function(id, url, tags) {
 };
 
 let load = function(tags=null) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', `${BASEURL}/all`, true);
-
-    xhr.onload = function (e) {
-        if (this.status == 200) {
-            let res = JSON.parse(this.response);
+    let c = new RilClient(BASEURL);
+    c.all(e => {
+        if (e.target.status == 200) {
+            let res = JSON.parse(e.target.response);
             let target = document.querySelector('#content');
             let tagcloud = document.querySelector('#tagcloud');
             target.innerHTML = '';
@@ -50,41 +48,32 @@ let load = function(tags=null) {
                 tagcloud.appendChild(tag);
             }
         }
-    }
-    xhr.send();
+    });
 };
 
 let add = function() {
     let formData = new FormData(document.querySelector("#addForm"));
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', `${BASEURL}/save`, true);
+    let c = new RilClient(BASEURL);
 
-    xhr.onload = function (e) {
-        if (this.status == 200) {
+    c.add(formData, e => {
+        if (e.target.status == 200) {
             load();
             console.log('Great success.');
         }
-    }
-    xhr.send(formData);
+    });
 };
 
 let del = function(id) {
-    let path = `${BASEURL}/${id}`;
-    console.log(`Del ${id} -> ${path}`);
-
-    let xhr = new XMLHttpRequest();
-    xhr.open('DELETE', path, true);
-
-    xhr.onload = function (e) {
+    let c = new RilClient(BASEURL);
+    c.del(id, e => {
         console.log('done');
-        if (this.status == 200) {
+        if (e.target.status == 200) {
             load();
             console.log('Great success.');
         } else {
-            console.log(`Not so great ${this.status}`);
+            console.log(`Not so great ${e.target.status}`);
         };
-    }
-    xhr.send();
+    });
 };
 
 load();
