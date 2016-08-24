@@ -5,7 +5,8 @@ class RilClient {
     }
 
     add(formData, callback) {
-        this.ajax.request('POST', `${this.baseUrl}/save`, formData, callback);
+        console.log('add');
+        this.ajax.queuableRequest('POST', `${this.baseUrl}/save`, formData, callback);
     }
 
     all(callback) {
