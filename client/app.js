@@ -1,4 +1,5 @@
-const BASEURL = "http://chateau208.mynetgear.com/ril-server";
+// const BASEURL = "http://chateau208.mynetgear.com/ril-server";
+const BASEURL = "http://localhost:8080";
 
 let createTag = function(tag) {
     let template = document.querySelector('#tagrow');
@@ -54,6 +55,7 @@ let load = function(tags=null) {
 let add = function() {
     let formData = new FormData(document.querySelector("#addForm"));
     let c = new RilClient(BASEURL);
+    console.log('Add');
 
     c.add(formData, e => {
         if (e.target.status == 200) {
